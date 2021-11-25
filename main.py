@@ -1,35 +1,34 @@
-from Inleveropdracht_1.doolhof import Doolhof
+from Inleveropdracht_1.doolhof import Maze
 from Inleveropdracht_1.agent import Agent
 from Inleveropdracht_1.policy import Policy
 
 
-matrix = []
-for i in range(0, 4):
-    for j in range(0, 4):
-        matrix.append([i, j])
+def main():
+    #  Get a list of every possible coördinate
+    matrix = []
+    for i in range(0, 4):
+        for j in range(0, 4):
+            matrix.append([i, j])
 
-rewards = [-1, -1, -1, 40,
-          -1, -1, -10, -10,
-          -1, -1, -1, -1,
-          10, -2, -1, -1
-]
+    # Here are the predetermined rewards
+    rewards = [-1, -1, -1, 40,
+               -1, -1, -10, -10,
+               -1, -1, -1, -1,
+               10, -2, -1, -1
+               ]
 
-values = [0 for i in range(len(rewards))]
+    values = [0 for i in range(len(rewards))]  # The values which is just a list of 16 zero's
+    actions = [0, 1, 2, 3]  # The actions. 0 = top, 1 = right, 2 = bottom and 3 is left
+    endstates = [[0, 0], [3, 3]]  # The coördinates of the endstates
+    gamma = 1  # The Gamma
+    delta = 0.1  # The Delta
 
-actions = [0, 1, 2, 3]
+    maze = Maze(matrix, values, actions, endstates)  # Initialize the maze
+    policy = Policy(maze, rewards, gamma)  # Initialize the policy
+    agent = Agent(maze, policy, [0, 1], delta)  # Initialize the agent
 
-endstates = [[0, 0], [3, 3]]
+    # Start the value iteration
+    agent.value_iteration()
 
-omgeving = Doolhof(matrix, values, actions, endstates)
 
-gamma = 1
-
-delta = 0.1
-
-policy = Policy(omgeving, rewards, gamma)
-
-agent = Agent(omgeving, policy, [0, 1], gamma, delta)
-
-# print(policy.value_matrix)
-print(agent.value_iteration())
-# print(omgeving.step(omgeving.states_matrix[2][3], 3))
+main()
