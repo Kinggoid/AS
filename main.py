@@ -32,4 +32,4 @@ agent = Agent(omgeving, policy, [0, 1], gamma, delta)
 
 # print(policy.value_matrix)
 print(agent.value_iteration())
-
+# print(omgeving.step(omgeving.states_matrix[2][3], 3))

@@ -23,46 +23,52 @@ class Agent:
         return True
 
     def check_difference(self, state):
-        last_value = abs(state.last_value)
+        new_value = abs(state.new_value)
         value = abs(state.value)
-        return abs(last_value - value)
+        return abs(new_value - value)
 
     def get_action(self, state):
         actions = Policy.select_action(self.policy, state)
         return random.choice(actions)
 
     def value_iteration(self):
-        print('hello')
-        k = 1
-        while self.delta_check():
+        k = 1  # Amount of iterations
+        while True:
             print('Iteration ' + str(k))
             for state in self.maze.states:
                 action = self.get_action(state)
 
-            for i in self.policy.policies[::-1]:
-                row = []
-                for j in i:
-                    row.append(j)
-                print(row)
+            if self.delta_check():
+                break
 
+            print('These are the new values of the matrix after the value iteration.')
             self.nieuwe_value_matrix()
 
-            if k == 2:
-                break
+            print('\n')
+
+            print('These are the new policies after the value iteration.')
+            self.print_policies()
 
             k += 1
 
             print('\n')
+
+    def print_policies(self):
+        for i in self.policy.policies[::-1]:
+            row = []
+            for j in i:
+                row.append(j)
+            print(row)
 
     def nieuwe_value_matrix(self):
         values = []
         for i in self.maze.states_matrix[::-1]:
             row = []
             for j in i:
-                row.append(j.value)
-            values.append(row)
+                row.append(j.new_value)
+                j.value = j.new_value
             print(row)
-
+            values.append(row)
         return values
 
 
