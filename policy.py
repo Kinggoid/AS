@@ -24,8 +24,9 @@ class Policy:
     def get_surrounding_states(self, state):
         """Return the surrounding states of a state."""
         surrounding_states = []
-        for direction in range(0, 4):
-            surrounding_states.append(Maze.step(self.maze, state, direction))
+        for direction in ['→', '←', '↑', '↓']:
+            one_direction = Maze.step(self.maze, state.location, direction)
+            surrounding_states.append(self.maze.states_matrix[one_direction[0]][one_direction[1]])
         return surrounding_states
 
     def bellman_equation(self, state):

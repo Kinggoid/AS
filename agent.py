@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from Inleveropdracht_1.doolhof import Maze
 from Inleveropdracht_1.policy import Policy
 
@@ -89,3 +91,20 @@ class Agent:
             self.print_policies()
 
             print('\n')
+
+    def agent_path(self):
+        """Simulate an agent going through the maze and taking the value iterations best path."""
+        k = 1  # How many steps are necesarry for the Agent to find the endstate
+
+        while True:
+            k += 1
+            policy = self.policy.policies[self.location[1]][self.location[0]]  # Find the policy
+            self.location = self.maze.step(self.location, random.choice(policy))  # Find hte coordinates of our next location
+            print('The agent is currently on coördinates: ' + str(self.location))
+
+            state = self.maze.states_matrix[self.location[0]][self.location[1]]  # Our next state
+
+            if state.is_endstate:  # If we land on an endstate, we stop the simulation
+                break
+
+        print("..." + str(k) + " steps for the agent to get to the endstate.")

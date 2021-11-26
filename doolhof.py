@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Maze:
-    def __init__(self, matrix: List[List[int]], values: List[int], actions: List[int], endstates):
+    def __init__(self, matrix: List[List[int]], values: List[int], actions: List[str], endstates):
         self.matrix = matrix  # List of coördinates in the grid
         self.values = values  # List of 16 zero's as inital values for the states
         self.actions = actions  # Possible actions
@@ -33,45 +33,44 @@ class Maze:
                     state.endstate()
         return states
 
-    def step(self, state, action: int):
+    def step(self, location: List[int], action: str):
         """
         Given a state and an action return the state you would encounter if you took that action. If you try and step
         outside of the grid, return the original state.
         """
-        location = state.location
-        if action == 0:  # Go one step to the top
+        if action == '↑':  # Go one step to the top
             new_y = location[1] + 1
             if new_y >= 4:
-                return state
+                return location
             else:
-                return self.states_matrix[location[0]][new_y]
+                return [location[0], new_y]
 
-        elif action == 1:  # Go one step to the right
+        elif action == '→':  # Go one step to the right
             new_x = location[0] + 1
             if new_x >= 4:
-                return state
+                return location
             else:
-                return self.states_matrix[new_x][location[1]]
+                return [new_x, location[1]]
 
-        elif action == 2:  # Go one step to the bottom
+        elif action == '↓':  # Go one step to the bottom
             new_y = location[1] - 1
             if new_y < 0:
-                return state
+                return location
             else:
-                return self.states_matrix[location[0]][new_y]
+                return [location[0], new_y]
 
-        elif action == 3:  # Go one step to the left
+        elif action == '←':  # Go one step to the left
             new_x = location[0] - 1
             if new_x < 0:
-                return state
+                return location
             else:
-                return self.states_matrix[new_x][location[1]]
+                return [new_x, location[1]]
 
 
 @dataclass
 class State:
     """Class for keeping track of a state."""
-    location: list
+    location: List[int]
     value: float
     checked: bool
     new_value: int

@@ -18,17 +18,23 @@ def main():
                ]
 
     values = [0 for i in range(len(rewards))]  # The values which is just a list of 16 zero's
-    actions = [0, 1, 2, 3]  # The actions. 0 = top, 1 = right, 2 = bottom and 3 is left
+    actions = ['→', '←', '↑', '↓']  # The actions. The arrows speak for the direction themselves
     endstates = [[0, 0], [3, 3]]  # The coördinates of the endstates
     gamma = 1  # The Gamma
     delta = 0.1  # The Delta
+    location_agent = [1, 0]  # Location of the agent
 
     maze = Maze(matrix, values, actions, endstates)  # Initialize the maze
     policy = Policy(maze, rewards, gamma)  # Initialize the policy
-    agent = Agent(maze, policy, [0, 1], delta)  # Initialize the agent
+    agent = Agent(maze, policy, location_agent, delta)  # Initialize the agent
 
     # Start the value iteration
     agent.value_iteration()
+
+    print('\n')
+    if input("Ben je klaar om de agent het pad af te zien lopen? \n"
+             "Zeg 'Ja' als je hier klaar voor bent: ") == 'Ja':
+        agent.agent_path()
 
 
 main()
