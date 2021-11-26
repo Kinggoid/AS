@@ -1,1 +1,6 @@
 To start the Value iteration process, simply clone the repository and run main.py.
+
+You will first see the iteration number, the changes in the values and the changes in the policies. This will continue untill the delte is reached. 
+
+Then you will get a message in the command line. When you type 'Ja' the program will simulate an agent on starting position [1, 0] walking the best path 
+(according to our Value iteration proces) and will show you the path it has taken.
